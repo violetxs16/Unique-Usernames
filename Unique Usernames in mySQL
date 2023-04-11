@@ -9,33 +9,33 @@
 <!-- Creates a form which prompts user to enter a username
 The data is processed in the same php file
 -->
-<form action = 'Violeta_Solorio_project_3pt2.php' method = 'POST'>
+<form action = 'Unique_usernames_script_2.php' method = 'POST'>
 <p>Username: <input type = 'text' name = 'username' size = '20' required>
 <input type ='submit' name = 'submit' value= 'Click to submit' required>
 </form>
 <?php
 	if($_SERVER['REQUEST_METHOD']=='POST'){
 		$issue = FALSE;
-		if(!empty($_POST['username'])){//Checks if username is not empty
+		if(!empty($_POST['username'])){
 			$username = trim(strip_tags($_POST['username']));//Uses trim & strip_tags to make username more secure
 		}else{
-			print "Submit a username";//If submition is empty, it prompts user to enter a username
+			print "Submit a username";
 		}
 		$dbc = mysqli_connect('localhost','username','password','username'); //Connects to database
-		$query = 'SELECT * FROM usernames'; //Defines the query and gets every column from the database
+		$query = 'SELECT * FROM usernames'; 
 		if($name = mysqli_query($dbc,$query)){//Runs query on the database
-			while($row = mysqli_fetch_array($name)){//Loops through array
+			while($row = mysqli_fetch_array($name)){
 				if($row['entry'] == $_POST['username']){//Condition if true if username is taken within database
-					print "The username is taken. Create another username.";//Prints out statement to user
-					$issue = TRUE;//Raises an issue
+					print "The username is taken. Create another username.";
+					$issue = TRUE;
 				}
 			}
 		}else{
 			print "Could not retrieve usernames";
 		}
 		if(!$issue){//If no isses, it adds the username to the database
-			 $query = "INSERT INTO usernames(entry) VALUES('$username')";//Defines the query with Insert Values
-			 if(@mysqli_query($dbc, $query)){//Runs query on database
+			 $query = "INSERT INTO usernames(entry) VALUES('$username')";
+			 if(@mysqli_query($dbc, $query)){
 				 print"Username has been added";
 			 }else{
 				 print "Username could not be added because".mysqli_error($dbc)."query";
